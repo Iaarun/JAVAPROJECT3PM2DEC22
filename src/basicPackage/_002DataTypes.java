@@ -2,7 +2,21 @@ package basicPackage;
 
 public class _002DataTypes {
     public static void main(String[] args) {
- variableTypes();
+        typecasting();
+    }
+
+    public static void typecasting(){
+        byte b = 12;
+
+        //implicit typecasting
+        int a= b;
+        System.out.println(a);
+        //explicit type casting
+        long lg = 15451;
+
+        int i = (int) lg;
+        System.out.println(i);
+
     }
 
     public static void variableTypes(){
