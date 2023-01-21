@@ -5,8 +5,16 @@ import java.util.Scanner;
 public class _003UserInput {
 
     public static void main(String[] args) {
-        userinput();
+        test();
 
+    }
+
+    public static void test(){
+        int a=10;
+        double b =25;
+
+        double res = (a+b)/(a-b);
+        System.out.println(res);
     }
 
     public static void userinput(){
