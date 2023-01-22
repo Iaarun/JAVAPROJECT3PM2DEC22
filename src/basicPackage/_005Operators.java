@@ -2,7 +2,7 @@ package basicPackage;
 
 public class _005Operators {
     public static void main(String[] args) {
-        ternaryOperator();
+        max();
     }
 
     public static void arithmaticoperator(){
@@ -41,6 +41,10 @@ public class _005Operators {
     public static void ternaryOperator(){
         //(condition)? expression1:expression2
              int a = 20;
-        System.out.println((a%2==0)?"even":"odd");
+        System.out.println((a%2==0)?a*2: a*3);
+    }
+    public static void max(){
+        int a=10,b=20,c=15;
+        System.out.println((a>c)?((a>b)?a:b):((c>b)?c:b));
     }
 }
