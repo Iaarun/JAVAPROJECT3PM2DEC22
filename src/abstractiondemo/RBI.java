@@ -1,7 +1,7 @@
 package abstractiondemo;
 
 public abstract class RBI {
-    public void test(){
+    public static void test(){
         System.out.println("test function");
     }
 

@@ -19,6 +19,7 @@ public class _003UserInput {
 
     public static void userinput(){
         Scanner in = new Scanner(System.in);
+      //  Scanner sc = new S
         System.out.println("Enter name");
 
         String name= in.next();
