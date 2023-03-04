@@ -24,4 +24,11 @@ public class LaunchBrowser {
       //  driver.close();
 
     }
+
+
+
+    public void launchBrowserusingbrowserdriver(){
+        System.setProperty("webdriver.chrome.driver","D:\\Automationtools\\seljars\\cd110\\chromedriver.exe");
+        driver = new ChromeDriver();
+    }
 }
