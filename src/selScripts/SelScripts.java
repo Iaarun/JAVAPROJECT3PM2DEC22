@@ -3,6 +3,7 @@ package selScripts;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.Select;
 
@@ -10,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
+import java.util.Set;
 
 public class SelScripts {
     WebDriver driver;
@@ -17,8 +19,8 @@ public class SelScripts {
  //   ChromeDriver driver;
     public static void main(String[] args) throws InterruptedException, IOException {
         SelScripts  ss = new SelScripts();
-        ss.launchBrowsers("chrome");
-        ss.handleFrame();
+        ss.launchBrowsers("firefox");
+        ss.multipleWindows();
       //  ss.closeBrowser();
     }
 
@@ -174,5 +176,77 @@ public class SelScripts {
       WebElement img=  driver.findElement(By.xpath("//a[@href='/']"));
         System.out.println(img.isDisplayed());
 
+    }
+
+    public void draganddrop(){
+        driver.get("https://jqueryui.com/droppable/");
+        driver.switchTo().frame(0);
+       WebElement drag= driver.findElement(By.id("draggable"));
+       WebElement drop= driver.findElement(By.id("droppable"));
+        Actions action = new Actions(driver);
+        //action.clickAndHold(drag).moveToElement(drop).release().build().perform();
+        action.dragAndDrop(drag, drop).perform();
+
+        //mousehover  movetoelement()
+    }
+
+    public void slider(){
+        driver.get("https://jqueryui.com/slider/");
+        driver.switchTo().frame(0);
+     WebElement slider=   driver.findElement(By.xpath("//span[@class='ui-slider-handle ui-corner-all ui-state-default']"));
+
+     Actions action = new Actions(driver);
+     action.clickAndHold(slider).moveByOffset(500,0).release().build().perform();
+        action.clickAndHold(slider).moveByOffset(-500,0).release().build().perform();
+    }
+
+    public void contextclickanddoubleclick(){
+        driver.get("https://bonigarcia.dev/selenium-webdriver-java/dropdown-menu.html");
+     WebElement dd2=   driver.findElement(By.xpath("//button[@id='my-dropdown-2']"));
+
+     Actions action =  new Actions(driver);
+     action.contextClick(dd2).perform();
+
+    WebElement menu2= driver.findElement(By.xpath("//ul[@id='context-menu-2']//a[@class='dropdown-item'][normalize-space()='Something else here']"));
+      action.moveToElement(menu2).keyDown(Keys.ARROW_DOWN).keyDown(Keys.ARROW_DOWN).click().build().perform();
+    }
+
+    public void autosuggestion() {
+        driver.get("https://www.google.com/");
+        driver.findElement(By.name("q")).sendKeys("test");
+        List<WebElement> option = driver.findElements(By.xpath("//ul[@jsname='bw4e9b']/li"));
+
+        option.forEach(x -> {
+            if (x.getText().equals("testbook")) {
+                x.click();
+            }
+        });
+    }
+
+    public void opennewTab(){
+        driver.get("https://www.google.com/");
+        driver.switchTo().newWindow(WindowType.TAB);
+        driver.get("https://bonigarcia.dev/selenium-webdriver-java/dropdown-menu.html");
+    }
+
+    public void multipleWindows(){
+        driver.get("https://www.naukri.com/");
+       String tab1= driver.getWindowHandle();
+        System.out.println(driver.getCurrentUrl());
+
+       driver.findElement(By.xpath("//div[normalize-space()='Services']")).click();
+
+      Set<String> alltabs= driver.getWindowHandles();
+
+      alltabs.forEach(x->{
+          if(!x.equals(tab1)){
+              driver.switchTo().window(x);
+              System.out.println(driver.getCurrentUrl());
+              driver.close();
+          }
+      });
+
+      driver.switchTo().window(tab1);
+        System.out.println(driver.getCurrentUrl());
     }
 }
