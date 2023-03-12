@@ -5,12 +5,16 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.io.FileHandler;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 public class SelScripts {
@@ -20,7 +24,7 @@ public class SelScripts {
     public static void main(String[] args) throws InterruptedException, IOException {
         SelScripts  ss = new SelScripts();
         ss.launchBrowsers("firefox");
-        ss.multipleWindows();
+        ss.seleniumwait();
       //  ss.closeBrowser();
     }
 
@@ -35,12 +39,14 @@ public class SelScripts {
         }
         driver.manage().window().maximize();
         System.out.println(driver.manage().window().getSize());
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
      //   driver.manage().window().minimize();
+    //    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
     public void closeBrowser(){
      //   driver.close();
+
         driver.quit();
     }
 
@@ -237,7 +243,6 @@ public class SelScripts {
        driver.findElement(By.xpath("//div[normalize-space()='Services']")).click();
 
       Set<String> alltabs= driver.getWindowHandles();
-
       alltabs.forEach(x->{
           if(!x.equals(tab1)){
               driver.switchTo().window(x);
@@ -245,8 +250,101 @@ public class SelScripts {
               driver.close();
           }
       });
-
       driver.switchTo().window(tab1);
         System.out.println(driver.getCurrentUrl());
     }
+
+
+    public void handleCalender(){
+        driver.get("https://jqueryui.com/datepicker/");
+        driver.switchTo().frame(0);
+      WebElement dpicker=  driver.findElement(By.id("datepicker"));
+      dpicker.click();
+       String calTitle= driver.findElement(By.className("ui-datepicker-title")).getText();
+        System.out.println(calTitle);
+      String month=  calTitle.split(" ")[0].trim();
+        String year=  calTitle.split(" ")[1].trim();
+
+      String nyear=  String.valueOf(Integer.parseInt(year)+1);
+
+      while(!(month.equals("March")&&(year.equals(nyear)) )){
+          driver.findElement(By.xpath("//span[@class='ui-icon ui-icon-circle-triangle-e']")).click();
+          calTitle= driver.findElement(By.className("ui-datepicker-title")).getText();
+          month=  calTitle.split(" ")[0].trim();
+          year=  calTitle.split(" ")[1].trim();
+      }
+      driver.findElement(By.xpath("//a[normalize-space()='30']")).click();
+    }
+
+
+    public void handlewebtable(){
+        driver.get("https://www.moneycontrol.com/stocks/marketstats/nsegainer/index.php");
+       List<WebElement> columns=  driver.findElements(By.xpath("//div[@class='container_tableDiv__SyE25']//table/thead/tr/th"));
+         int col = columns.size();
+        List<WebElement> rows=  driver.findElements(By.xpath("//div[@class='container_tableDiv__SyE25']//table/tbody/tr"));
+        int row = rows.size();
+        System.out.println("Nunmber of rows: "+row);
+        System.out.println("Nunmber of columns: "+col);
+
+
+        System.out.println();
+        System.out.println("==========================================================");
+        //print gainer company name
+
+        for(int i=1; i<=row; i++){
+          String names=  driver.findElement(By.xpath("//div[@class='container_tableDiv__SyE25']//table/tbody/tr["+i+"]/td[1]")).getText();
+            System.out.println(names);
+        }
+
+        System.out.println();
+        System.out.println("==========================================================");
+//print column header
+        for(int i=1; i<=col; i++){
+            String colheader=    driver.findElement(By.xpath("//div[@class='container_tableDiv__SyE25']//table/thead/tr/th["+i+"]")).getText();
+            System.out.print(colheader+"  | ");
+        }
+        System.out.println();
+        System.out.println("==========================================================");
+        //for complete table data
+        for(int i=1; i<=row; i++){
+            for(int j=1; j<col; j++){
+                String names=  driver.findElement(By.xpath("//div[@class='container_tableDiv__SyE25']//table/tbody/tr["+i+"]/td["+j+"]")).getText();
+                System.out.print(names+"  | ");
+            }
+            System.out.println();
+
+        }
+    }
+
+    public void seleniumwait(){
+        driver.get("https://bonigarcia.dev/selenium-webdriver-java/loading-images.html");
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(text(),'Done!')]")));
+      WebElement load=   driver.findElement(By.xpath("//p[contains(text(),'Done!')]"));
+        System.out.println(load.getText());
+    }
+
+    public void fluentWait(){
+
+        FluentWait<WebDriver> wait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(15))
+                .pollingEvery(Duration.ofSeconds(1))
+                .ignoring(NoSuchElementException.class);
+
+      //  wait.until(ExpectedConditions.)
+
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
