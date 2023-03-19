@@ -5,11 +5,13 @@ import org.testng.annotations.Test;
 public class TestNgBasicAttributeDemo {
 
     @Test(invocationCount = 0)
-    public void test3(){
+    public void test3()
+    {
         System.out.println("Test3 method");
     }
     @Test
-    public void test2(){
+    public void test2()
+    {
         System.out.println("Test2 method");
     }
     @Test

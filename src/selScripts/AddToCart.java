@@ -16,6 +16,7 @@ public class  AddToCart {
         addcart.addToCartScenario();
         addcart.closeBrowser();
     }
+
     public void launchBrowsers(String browser){
 
         if(browser.equalsIgnoreCase("chrome")){

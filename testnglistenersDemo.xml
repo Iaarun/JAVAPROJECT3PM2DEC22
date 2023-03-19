@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite" parallel= "none"  >
+    <!--<parameter name="browser" value="chrome"></parameter>-->
+    <listeners>
+        <listener class-name="testngPackages.MyListeners"></listener>
+        
+    </listeners>
+    <test  name="SeleniumChromeTest" parallel="none" thread-count="1">
+        <parameter name="browser" value="chrome"></parameter>
+        <classes>
+            <class name="testngPackages.TestNGParameterizationDemo" ></class>
+        </classes>
+    </test>
+    <test  name="FirefoxTest" parallel="none" thread-count="1">
+        <parameter name="browser" value="firefox"></parameter>
+        <classes>
+            <class name="testngPackages.TestNGParameterizationDemo" ></class>
+        </classes>
+    </test>
+</suite>
